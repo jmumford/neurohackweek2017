@@ -2,9 +2,7 @@
 title: "Test"
 author: "Jeanette Mumford"
 date: "8/21/2017"
-output: 
-   html_document:
-      keep_md: true
+output:github_document
 ---
 
 ```{r setup, include=FALSE}
