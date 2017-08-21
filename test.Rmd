@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## R Markdown
 
 Hey there, sugar bear
-Hey there, sugar bear
+Hey there, sugar bear  
 Hey there, sugar bear
 Hey there, sugar bear
 Hey there, sugar bear
