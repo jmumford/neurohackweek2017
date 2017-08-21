@@ -4,10 +4,11 @@ Jeanette Mumford
   
 
 
-## R Markdown
+# R Markdown
 
 pull, then edit, then push, then commit and push again?
 
+# New Section?
 What if I skip the initial pull????
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
@@ -29,7 +30,7 @@ summary(cars)
 ##  Max.   :25.0   Max.   :120.00
 ```
 
-## Including Plots
+### Including Plots
 
 You can also embed plots, for example:
 
