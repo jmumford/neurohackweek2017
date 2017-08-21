@@ -6,7 +6,11 @@ Jeanette Mumford
 
 ## R Markdown
 
-NEW EDITS AGAIN
+Hey there, sugar bear
+Hey there, sugar bear
+Hey there, sugar bear
+Hey there, sugar bear
+Hey there, sugar bear
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
