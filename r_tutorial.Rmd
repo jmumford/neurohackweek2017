@@ -2,11 +2,12 @@
 title: "R tutorial"
 author: "Jeanette Mumford"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     keep_md: yes
-    toc: true
     theme: united
- 
+    toc: yes
 ---
 
 ## Installing R and getting started
