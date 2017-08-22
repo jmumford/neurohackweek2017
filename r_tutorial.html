@@ -130,7 +130,38 @@ $(document).ready(function () {
 <div id="installing-r-and-getting-started" class="section level2">
 <h2>Installing R and getting started</h2>
 <p><a href="https://www.r-project.org/">R</a> is free and I highly recommend using R through the IDE, <a href="https://www.rstudio.com/">RStudio</a>, which offers a lot of helpful functionality like generating R markdown files easily and integrating with git. A common confusion is updating RStudio is  also updating R as they are separate programs.</p>
-<p>Like Python, R requires installing libraries for more advanced tools, but unlike Python the installation is typically very easy. Most libraries you will want to use are located in the <a href="https://cran.r-project.org/">CRAN</a> (Comprehensive R Archive Network), which can be accessed through R, directly.</p>
+<p>To install R and RStudio, start by installing R and then install RStudio second. RStudio should automatically find R when it installs.</p>
+<p>Like Python, R requires installing libraries for more advanced tools, but unlike Python the installation is typically very easy. Most libraries you will want to use are located in the <a href="https://cran.r-project.org/">CRAN</a> (Comprehensive R Archive Network), which can be accessed through R, directly. The following illustrates how you’d install and load a package.</p>
+<pre class="r"><code># &lt;-  The comment in R is the hash symbol
+
+# To grab libraries for installation, R will ask you to
+# select a CRAN &quot;mirror&quot;.  The following line will set the
+# mirror permanently so R doesn't ask you over and over again.
+#  All the mirrors are listed here: https://cran.r-project.org/mirrors.html
+
+# You only need to run this once ever (not once per session)
+options(repos=structure(c(CRAN=&quot;http://cran.us.r-project.org&quot;)))
+
+
+# To install a library use the following, note double quotes are used.
+# A &quot;newer&quot; feature is dependencies (libraries the library of 
+# interest needs) will automatically be installed.
+
+# You only need to run this once ever (not once per session)
+#install.packages(&quot;ggplot2&quot;)
+
+# To load the library so you can access the functions 
+
+# Run once per session if you'd like to use it
+library(&quot;ggplot2&quot;)</code></pre>
+<pre><code>## Warning: package 'ggplot2' was built under R version 3.3.2</code></pre>
+<p>For the above you will likely get more output than I did when you run install.packages, as I already had it installed.</p>
+<p>Now open a new editor (in RStudio click the white page icon in the upper left and select, “R Script”, and we’ll write a quick “hello world”. Enter the following in the file and save it in a file called “first_script.R”.</p>
+<pre class="r"><code>print(&quot;Hello world&quot;)</code></pre>
+<p>I feel it is poor coding form to change working directories, so I always recommend typing out the full paths to files. So edit the following to reflect where you just stored your file. This will run your script.</p>
+<pre class="r"><code>source(&quot;/Users/jeanettemumford/Documents/Research/Teaching/neurohackweek2017/first_script.R&quot;)</code></pre>
+<pre><code>## [1] &quot;Hello world&quot;</code></pre>
+<p>If you want to run the script from the LINUX prompt you would use “Rscript first_script.R”</p>
 </div>
 
 
