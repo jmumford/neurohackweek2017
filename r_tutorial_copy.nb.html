@@ -186,27 +186,20 @@ $(document).ready(function () {
 <p>Like Python, R requires installing libraries for more advanced tools, but unlike Python the installation is typically very easy. Most libraries you will want to use are located in the <a href="https://cran.r-project.org/">CRAN</a> (Comprehensive R Archive Network), which can be accessed through R, directly. The following illustrates how you’d install and load a package.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyA8LSAgVGhlIGNvbW1lbnQgaW4gUiBpcyB0aGUgaGFzaCBzeW1ib2xcblxuIyBUbyBncmFiIGxpYnJhcmllcyBmb3IgaW5zdGFsbGF0aW9uLCBSIHdpbGwgYXNrIHlvdSB0b1xuIyBzZWxlY3QgYSBDUkFOIFwibWlycm9yXCIuICBUaGUgZm9sbG93aW5nIGxpbmUgd2lsbCBzZXQgdGhlXG4jIG1pcnJvciBwZXJtYW5lbnRseSBzbyBSIGRvZXNuJ3QgYXNrIHlvdSBvdmVyIGFuZCBvdmVyIGFnYWluLlxuIyAgQWxsIHRoZSBtaXJyb3JzIGFyZSBsaXN0ZWQgaGVyZTogaHR0cHM6Ly9jcmFuLnItcHJvamVjdC5vcmcvbWlycm9ycy5odG1sXG5cbiMgWW91IG9ubHkgbmVlZCB0byBydW4gdGhpcyBvbmNlIGV2ZXIgKG5vdCBvbmNlIHBlciBzZXNzaW9uKVxub3B0aW9ucyhyZXBvcz1zdHJ1Y3R1cmUoYyhDUkFOPVwiaHR0cDovL2NyYW4udXMuci1wcm9qZWN0Lm9yZ1wiKSkpXG5cblxuIyBUbyBpbnN0YWxsIGEgbGlicmFyeSB1c2UgdGhlIGZvbGxvd2luZywgbm90ZSBkb3VibGUgcXVvdGVzIGFyZSB1c2VkLlxuIyBBIFwibmV3ZXJcIiBmZWF0dXJlIGlzIGRlcGVuZGVuY2llcyAobGlicmFyaWVzIHRoZSBsaWJyYXJ5IG9mIFxuIyBpbnRlcmVzdCBuZWVkcykgd2lsbCBhdXRvbWF0aWNhbGx5IGJlIGluc3RhbGxlZC5cblxuIyBZb3Ugb25seSBuZWVkIHRvIHJ1biB0aGlzIG9uY2UgZXZlciAobm90IG9uY2UgcGVyIHNlc3Npb24pXG4jaW5zdGFsbC5wYWNrYWdlcyhcImdncGxvdDJcIilcblxuIyBUbyBsb2FkIHRoZSBsaWJyYXJ5IHNvIHlvdSBjYW4gYWNjZXNzIHRoZSBmdW5jdGlvbnMgXG5cbiMgUnVuIG9uY2UgcGVyIHNlc3Npb24gaWYgeW91J2QgbGlrZSB0byB1c2UgaXRcbmxpYnJhcnkoXCJnZ3Bsb3QyXCIpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyA8LSAgVGhlIGNvbW1lbnQgaW4gUiBpcyB0aGUgaGFzaCBzeW1ib2xcbiMgVG8gZ3JhYiBsaWJyYXJpZXMgZm9yIGluc3RhbGxhdGlvbiwgUiB3aWxsIGFzayB5b3UgdG9cbiMgc2VsZWN0IGEgQ1JBTiBcIm1pcnJvclwiLiAgVGhlIGZvbGxvd2luZyBsaW5lIHdpbGwgc2V0IHRoZVxuIyBtaXJyb3IgcGVybWFuZW50bHkgc28gUiBkb2Vzbid0IGFzayB5b3Ugb3ZlciBhbmQgb3ZlciBhZ2Fpbi5cbiMgIEFsbCB0aGUgbWlycm9ycyBhcmUgbGlzdGVkIGhlcmU6IGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL21pcnJvcnMuaHRtbFxuIyBZb3Ugb25seSBuZWVkIHRvIHJ1biB0aGlzIG9uY2UgZXZlciAobm90IG9uY2UgcGVyIHNlc3Npb24pXG5vcHRpb25zKHJlcG9zPXN0cnVjdHVyZShjKENSQU49XCJodHRwOi8vY3Jhbi51cy5yLXByb2plY3Qub3JnXCIpKSlcbiMgVG8gaW5zdGFsbCBhIGxpYnJhcnkgdXNlIHRoZSBmb2xsb3dpbmcsIG5vdGUgZG91YmxlIHF1b3RlcyBhcmUgdXNlZC5cbiMgQSBcIm5ld2VyXCIgZmVhdHVyZSBpcyBkZXBlbmRlbmNpZXMgKGxpYnJhcmllcyB0aGUgbGlicmFyeSBvZiBcbiMgaW50ZXJlc3QgbmVlZHMpIHdpbGwgYXV0b21hdGljYWxseSBiZSBpbnN0YWxsZWQuXG4jIFlvdSBvbmx5IG5lZWQgdG8gcnVuIHRoaXMgb25jZSBldmVyIChub3Qgb25jZSBwZXIgc2Vzc2lvbilcbiNpbnN0YWxsLnBhY2thZ2VzKFwiZ2dwbG90MlwiKVxuIyBUbyBsb2FkIHRoZSBsaWJyYXJ5IHNvIHlvdSBjYW4gYWNjZXNzIHRoZSBmdW5jdGlvbnMgXG4jIFJ1biBvbmNlIHBlciBzZXNzaW9uIGlmIHlvdSdkIGxpa2UgdG8gdXNlIGl0XG5saWJyYXJ5KFwiZ2dwbG90MlwiKVxuYGBgIn0= -->
 <pre class="r"><code># &lt;-  The comment in R is the hash symbol
-
 # To grab libraries for installation, R will ask you to
 # select a CRAN &quot;mirror&quot;.  The following line will set the
 # mirror permanently so R doesn't ask you over and over again.
 #  All the mirrors are listed here: https://cran.r-project.org/mirrors.html
-
 # You only need to run this once ever (not once per session)
 options(repos=structure(c(CRAN=&quot;http://cran.us.r-project.org&quot;)))
-
-
 # To install a library use the following, note double quotes are used.
 # A &quot;newer&quot; feature is dependencies (libraries the library of 
 # interest needs) will automatically be installed.
-
 # You only need to run this once ever (not once per session)
 #install.packages(&quot;ggplot2&quot;)
-
 # To load the library so you can access the functions 
-
 # Run once per session if you'd like to use it
 library(&quot;ggplot2&quot;)</code></pre>
 <!-- rnb-source-end -->

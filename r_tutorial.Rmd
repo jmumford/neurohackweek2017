@@ -11,11 +11,11 @@ output:
 ---
 
 ## Installing R and getting started
-[R](https://www.r-project.org/) is free and I highly recommend using R through the IDE, [RStudio](https://www.rstudio.com/), which offers a lot of helpful functionality like generating R markdown files easily and integrating with git.  A common confusion is updating RStudio is \emph{not} also updating R as they are separate programs.
+[R](https://www.r-project.org/) is free and I highly recommend using R through the IDE, [RStudio](https://www.rstudio.com/), which offers a lot of helpful functionality like generating R markdown files easily and integrating with github.  A common confusion is updating RStudio is \emph{not} also updating R as they are separate programs.
 
 To install R and RStudio, start by installing R and then install RStudio second.  RStudio should automatically find R when it installs.
 
-Like Python, R requires installing libraries for more advanced tools, but unlike Python the installation is typically very easy.  Most libraries you will want to use are located in the [CRAN](https://cran.r-project.org/) (Comprehensive R Archive Network), which can be accessed through R, directly.  The following illustrates how you'd install and load a package.
+Like Python, R requires installing libraries for more advanced tools, but  the installation is typically very easy.  Most libraries you will want to use are located in the [CRAN](https://cran.r-project.org/) (Comprehensive R Archive Network), which can be accessed through R, directly.  The following illustrates how you'd install and load a package.
 
 
 ```{r}
@@ -60,9 +60,16 @@ If you want to run the script from the LINUX prompt you would use "Rscript first
 In RStudio, you can simply hit cmd+return (on a Mac) to run the current line that the cursor is on, or you can copy and paste into the R terminal window.  Give that a shot with your single line in first_script.R and add these following simple commands and run them.
 
 ```{r, results="hide"}
-a = 4
-b = 10
+a <- 4
+b <- 10
 a*b
 a-b
 ```
 
+Now, you will notice I use the "<-" symbol to assign a value to a variable.  You can also use "=" and the result is the same.  Why didn't the developers use the equal sign?  The short answer is it originally was used to set function values, for example in the command, rnorm(10, mean = 5), it is setting the mean value to 5 within the rnorm function.  Back in the day there was a single button that made the "<-" and, in fact, in some editors a shortcut still exists.  I will be using the "=" in this tutorial and you can read more about the history [here](http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html).
+
+There's one last way to assign a number to a variable and this can be very useful if you're creating variables in a loop and, for example, you would like the loop number to be included in the variable name.  
+```{r}
+assign("a", 5)
+a
+```
