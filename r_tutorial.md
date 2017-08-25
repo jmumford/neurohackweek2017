@@ -33,7 +33,7 @@ install.packages("ggplot2")
 ```
 ## 
 ## The downloaded binary packages are in
-## 	/var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//Rtmp1ijn6a/downloaded_packages
+## 	/var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//RtmptN0Lsn/downloaded_packages
 ```
 
 ```r
@@ -402,10 +402,17 @@ df.ex2
 Summary of functions used in this section:
 $\beta$
 
-Table Header | Second Header
+Function Name | What it does
 ------------- | -------------
-Table Cell | Cell 2
-Cell 3 | Cell 4 
-class : Tells you the data type in your vector
-as.factor/as.character/as.numeric : ways to create factors, characters and numeric data
-TRUE, FALSE, NA:  Not actually functions, but special values that R treats as logicals and missing values, respectively
+class | Tells you the data type
+as.factor/as.character/as.numeric | set data type to factor/character/numeric
+special values: TRUE, FALSE, NA | Use without quotes when creating data to indicate logical or missing data
+matrix| How to create a matrix
+array | How to create an array
+data.frame | How to create a data frame
+list | How to create a list
+names | How to access names of data.frame (for viewing or changing)
+dim | How to look at the dimension of your matrix/array/data.frame
+length|  How to look at lengths of vectors/lists/etc
+
+
