@@ -123,13 +123,17 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#installing-r-and-getting-started">Installing R and getting started</a></li>
-<li><a href="#how-data-are-stored">How data are stored</a></li>
+<li><a href="#installing-r-and-getting-started">1 Installing R and getting started</a><ul>
+<li><a href="#summary-of-functions-from-section-1">Summary of functions from Section 1</a></li>
+</ul></li>
+<li><a href="#how-data-are-stored">2 How data are stored</a><ul>
+<li><a href="#summary-of-functions-from-section-2">Summary of functions from Section 2</a></li>
+</ul></li>
 </ul>
 </div>
 
 <div id="installing-r-and-getting-started" class="section level2">
-<h2>Installing R and getting started</h2>
+<h2>1 Installing R and getting started</h2>
 <p><a href="https://www.r-project.org/">R</a> is free and I highly recommend using R through the IDE, <a href="https://www.rstudio.com/">RStudio</a>, which offers a lot of helpful functionality like generating R markdown files easily and integrating with github. A common confusion is that updating RStudio is also updating R, but this is not the case. RStudio uses R, but they are updated and installed independently.</p>
 <p>To install R and RStudio, start by installing R and then install RStudio second. RStudio should automatically find R when it installs.</p>
 <p>Like Python, R requires installing libraries for more advanced tools, but the installation is typically very easy. Most libraries you will want to use are located in the <a href="https://cran.r-project.org/">CRAN</a> (Comprehensive R Archive Network), which can be accessed through R, directly. The following illustrates how you’d install and load a package.</p>
@@ -152,7 +156,7 @@ options(repos=structure(c(CRAN=&quot;http://cran.us.r-project.org&quot;)))
 install.packages(&quot;ggplot2&quot;)</code></pre>
 <pre><code>## 
 ## The downloaded binary packages are in
-##  /var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//RtmptN0Lsn/downloaded_packages</code></pre>
+##  /var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//Rtmp45Z5d8/downloaded_packages</code></pre>
 <pre class="r"><code># To load the library so you can access the functions 
 
 # Run once per session if you'd like to use it
@@ -192,9 +196,55 @@ sprintf(&quot;variable%s&quot;, x)</code></pre>
 <pre class="r"><code>a = &quot;variable&quot;
 b = 10
 c = 4</code></pre>
+<div id="summary-of-functions-from-section-1" class="section level3">
+<h3>Summary of functions from Section 1</h3>
+<p>For more information about any of these functions, simply type ?function.name at the R prompt to open the help. Eg, ?options will tell you more about options().</p>
+<table style="width:39%;">
+<colgroup>
+<col width="19%"></col>
+<col width="19%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function Name</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>options</td>
+<td>Let’s you set various global options in R</td>
+</tr>
+<tr class="even">
+<td>install.packages</td>
+<td>Used to install packages. Only install once.</td>
+</tr>
+<tr class="odd">
+<td>library</td>
+<td>Load a library. Needed each session</td>
+</tr>
+<tr class="even">
+<td>print</td>
+<td>Print strings to screen</td>
+</tr>
+<tr class="odd">
+<td>source</td>
+<td>Run all code contained in a file</td>
+</tr>
+<tr class="even">
+<td>&lt;-</td>
+<td>Older, but still commonly used, symbol for assigning values to a variable</td>
+</tr>
+<tr class="odd">
+<td>assign</td>
+<td>more flexible function for assigning values to a variable name</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="how-data-are-stored" class="section level2">
-<h2>How data are stored</h2>
+<h2>2 How data are stored</h2>
 <p>There are four main data types used in R: numeric, character, factor and logical. Although numeric, character and logical tend to be more intuitive, factor can often be confusing and sometimes bad things happen if you don’t realize something is a factor. First I’ll show each one and then I’ll explain what this factor business is.</p>
 <pre class="r"><code># You can use the class() function to see what type of data R thinks you have
 
@@ -333,7 +383,8 @@ df.ex2</code></pre>
 ## 4    4   10   16
 ## 5    5   11   17
 ## 6    6   12   18</code></pre>
-<p>Summary of functions used in this section: <span class="math inline">\(\beta\)</span></p>
+<div id="summary-of-functions-from-section-2" class="section level3">
+<h3>Summary of functions from Section 2</h3>
 <table style="width:39%;">
 <colgroup>
 <col width="19%"></col>
@@ -386,8 +437,13 @@ df.ex2</code></pre>
 <td>length</td>
 <td>How to look at lengths of vectors/lists/etc</td>
 </tr>
+<tr class="odd">
+<td>?</td>
+<td>How you get help, eg. ?matrix will give the help for as.matrix</td>
+</tr>
 </tbody>
 </table>
+</div>
 </div>
 
 

@@ -1,7 +1,7 @@
 # R tutorial
 Jeanette Mumford  
 
-## Installing R and getting started
+## 1 Installing R and getting started
 [R](https://www.r-project.org/) is free and I highly recommend using R through the IDE, [RStudio](https://www.rstudio.com/), which offers a lot of helpful functionality like generating R markdown files easily and integrating with github.  A common confusion is that updating RStudio is also updating R, but this is not the case.  RStudio uses R, but they are updated and installed independently.
 
 To install R and RStudio, start by installing R and then install RStudio second.  RStudio should automatically find R when it installs.
@@ -33,7 +33,7 @@ install.packages("ggplot2")
 ```
 ## 
 ## The downloaded binary packages are in
-## 	/var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//RtmptN0Lsn/downloaded_packages
+## 	/var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//Rtmp45Z5d8/downloaded_packages
 ```
 
 ```r
@@ -125,7 +125,20 @@ b = 10
 c = 4
 ```
 
-## How data are stored
+### Summary of functions from Section 1
+For more information about any of these functions, simply type ?function.name at the R prompt to open the help.  Eg, ?options will tell you more about options().
+
+Function Name | What it does
+------------- | -------------
+options | Let's you set various global options in R
+install.packages | Used to install packages.  Only install once.
+library | Load a library.  Needed each session 
+print | Print strings to screen
+source | Run all code contained in a file
+<- | Older, but still commonly used, symbol for assigning values to a variable
+assign | more flexible function for assigning values to a variable name
+
+## 2 How data are stored
 There are four main data types used in R: numeric, character, factor and logical.  Although numeric, character and logical tend to be more intuitive, factor can often be confusing and sometimes bad things happen if you don't realize something is a factor.  First I'll show each one and then I'll explain what this factor business is.
 
 
@@ -399,8 +412,7 @@ df.ex2
 ## 6    6   12   18
 ```
 
-Summary of functions used in this section:
-$\beta$
+### Summary of functions from Section 2
 
 Function Name | What it does
 ------------- | -------------
@@ -414,5 +426,5 @@ list | How to create a list
 names | How to access names of data.frame (for viewing or changing)
 dim | How to look at the dimension of your matrix/array/data.frame
 length|  How to look at lengths of vectors/lists/etc
-
+? | How you get help, eg. ?matrix will give the help for as.matrix
 
