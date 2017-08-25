@@ -124,12 +124,13 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#installing-r-and-getting-started">Installing R and getting started</a></li>
+<li><a href="#how-data-are-stored">How data are stored</a></li>
 </ul>
 </div>
 
 <div id="installing-r-and-getting-started" class="section level2">
 <h2>Installing R and getting started</h2>
-<p><a href="https://www.r-project.org/">R</a> is free and I highly recommend using R through the IDE, <a href="https://www.rstudio.com/">RStudio</a>, which offers a lot of helpful functionality like generating R markdown files easily and integrating with github. A common confusion is updating RStudio is  also updating R as they are separate programs.</p>
+<p><a href="https://www.r-project.org/">R</a> is free and I highly recommend using R through the IDE, <a href="https://www.rstudio.com/">RStudio</a>, which offers a lot of helpful functionality like generating R markdown files easily and integrating with github. A common confusion is that updating RStudio is also updating R, but this is not the case. RStudio uses R, but they are updated and installed independently.</p>
 <p>To install R and RStudio, start by installing R and then install RStudio second. RStudio should automatically find R when it installs.</p>
 <p>Like Python, R requires installing libraries for more advanced tools, but the installation is typically very easy. Most libraries you will want to use are located in the <a href="https://cran.r-project.org/">CRAN</a> (Comprehensive R Archive Network), which can be accessed through R, directly. The following illustrates how you’d install and load a package.</p>
 <pre class="r"><code># &lt;-  The comment in R is the hash symbol
@@ -148,9 +149,11 @@ options(repos=structure(c(CRAN=&quot;http://cran.us.r-project.org&quot;)))
 # interest needs) will automatically be installed.
 
 # You only need to run this once ever (not once per session)
-#install.packages(&quot;ggplot2&quot;)
-
-# To load the library so you can access the functions 
+install.packages(&quot;ggplot2&quot;)</code></pre>
+<pre><code>## 
+## The downloaded binary packages are in
+##  /var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//Rtmp1ijn6a/downloaded_packages</code></pre>
+<pre class="r"><code># To load the library so you can access the functions 
 
 # Run once per session if you'd like to use it
 library(&quot;ggplot2&quot;)</code></pre>
@@ -167,7 +170,189 @@ library(&quot;ggplot2&quot;)</code></pre>
 b &lt;- 10
 a*b
 a-b</code></pre>
-<p>Now, you will notice I use the “&lt;-” symbol to assign a value to a variable. You can also use “=” and the result is the same. Why didn’t the developers use the equal sign? The short answer is it originally was used to set function values, for example in the command, norm(10, mean = 5), it is setting the mean value to 5 within the norm function. Back in the day there was a single button that made the “&lt;-” and, in fact, in some editors a shortcut still exists, but I’m lazy and like the single keystroke solution, so I will be using the equal sign. You can read more about the history <a href="http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html">here</a>.</p>
+<p>Now, you will notice I use the “&lt;-” symbol to assign a value to a variable. You can also use “=” and the result is the same. Why didn’t the developers use the equal sign? The short answer is it originally was used to set function values, for example in the command, rnorm(10, mean = 5), it is setting the mean value to 5 within the rnorm function. Back in the day there was a single button that made the “&lt;-” and, in fact, in some editors a shortcut still exists (e.g. Aquamacs). I prefer fewer keystrokes and don’t find it to be confusing, so I will be using the “=” in this tutorial. You can read a longer answer <a href="http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html">here</a>.</p>
+<p>There’s one last way to assign a number to a variable and this can be very useful if you’re creating variables in a loop and, for example, you would like the loop number to be included in the variable name.</p>
+<pre class="r"><code>assign(&quot;a&quot;, 5)
+a</code></pre>
+<pre><code>## [1] 5</code></pre>
+<p>To insert a variable name, you can combine assign() with another function in R that allows you to combine strings and variables. The paste0() function and sprintf() allow for this.</p>
+<pre class="r"><code>x = 10
+# paste0 simply connects everything
+paste0(&quot;variable&quot;, x)</code></pre>
+<pre><code>## [1] &quot;variable10&quot;</code></pre>
+<pre class="r"><code># Alternatively, sprintf can work and has some additional flexibilities
+
+# On your own, look at the help for sprintf.  By the way simply type &quot;?&quot; followed
+#  by your command name to open the help page
+?sprintf
+sprintf(&quot;variable%s&quot;, x)</code></pre>
+<pre><code>## [1] &quot;variable10&quot;</code></pre>
+<pre class="r"><code># the %s acts as a fill in the blank for strings.  You'd need to change this for number input</code></pre>
+<p>Play around with the paste or sprintf commands. Try to create a variable called “variable10” that has a value of 4 using the following:</p>
+<pre class="r"><code>a = &quot;variable&quot;
+b = 10
+c = 4</code></pre>
+</div>
+<div id="how-data-are-stored" class="section level2">
+<h2>How data are stored</h2>
+<p>There are four main data types used in R: numeric, character, factor and logical. Although numeric, character and logical tend to be more intuitive, factor can often be confusing and sometimes bad things happen if you don’t realize something is a factor. First I’ll show each one and then I’ll explain what this factor business is.</p>
+<pre class="r"><code># You can use the class() function to see what type of data R thinks you have
+
+# Numbers (almost) always default to numeric
+y = c(1,2,3,4)       # a vector of numbers
+class(y)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code># Character
+names = c(&quot;Anne&quot;, &quot;Sean&quot;, &quot;Lilly&quot;, &quot;Logan&quot;) # a vector of strings
+# Check the class of names()
+class(names)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code># Factors
+gender = c(&quot;m&quot;, &quot;f&quot;, &quot;m&quot;, &quot;f&quot;, &quot;m&quot;,&quot;m&quot;, &quot;f&quot;)  # here is it a character
+gender.factor = as.factor(gender)        
+gender.factor</code></pre>
+<pre><code>## [1] m f m f m m f
+## Levels: f m</code></pre>
+<pre class="r"><code>class(gender)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code># Logicals
+a = 1&lt;3
+class(a)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code># OR
+b = c(TRUE, FALSE, TRUE, TRUE)
+# Note I didn't use quotes to create b.  There are some special strings in 
+# R that don't use quotes, including, NA, NaN, TRUE and FALSE.  That's because these aren't strings, but serve a different purpose.
+class(b)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<p>The reason R has factors relates to the main purpose of R: run statistical analyses. In many models you run with categorical variables, there’s a specific baseline comparison that makes the most sense. For example, if I ran a model with three groups, adhd, bipolar and controls, I might prefer my regression coefficients use the control group as the reference and that’s exactly what factors do, they allow you to set the reference.</p>
+<p>Probably the place you’ll find this the most useful is when using ggplot. If you want to change the order in which levels are plotted (say in a set of boxplots), releveling a factor into the order you’d like is the solution. There will be an example later on.</p>
+<pre class="r"><code>group = factor(c(&quot;adhd&quot;, &quot;bipolar&quot;, &quot;ctrl&quot;))
+# without doing anything, adhd is listed first, meaning it is the baseline
+group</code></pre>
+<pre><code>## [1] adhd    bipolar ctrl   
+## Levels: adhd bipolar ctrl</code></pre>
+<pre class="r"><code># use relevel to change reference
+relevel(group, ref = &quot;ctrl&quot;)</code></pre>
+<pre><code>## [1] adhd    bipolar ctrl   
+## Levels: ctrl adhd bipolar</code></pre>
+<p>Sometimes after reading in data it will automatically change things into factors that you wish were numbers. Be very careful when you do this! You must first convert to a character and then a numeric, otherwise it will use the level value as the value.</p>
+<pre class="r"><code># Common mistake
+# Going from factor to number
+num.vec = as.factor(c(1.2, 1.4, 1.6))
+num.vec</code></pre>
+<pre><code>## [1] 1.2 1.4 1.6
+## Levels: 1.2 1.4 1.6</code></pre>
+<pre class="r"><code># Wrong way
+as.numeric(num.vec)</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code># Correct way
+as.numeric(as.character(num.vec))</code></pre>
+<pre><code>## [1] 1.2 1.4 1.6</code></pre>
+<p>So far you’ve only been looking at vectors of numbers, but you’ll often want to put a bunch of vectors together and there are multiple options including list, matrix, array, and data frame. The first three are found in many software packages, but the data frame is a special structure that makes the data much more useful for a lot of different R functions, including plotting and data manipulation.</p>
+<p>The list is best for things of varying lengths. Function output is typically put in a list. This is analogous to the MATLAB structure.</p>
+<p>Matrices are two dimensional and are best if you’re working with an actual matrix. For example a matrix of fMRI data where the columns correspond to different voxels. If you plan on using matrix math, you’ll want the data to be in a matrix.</p>
+<p>Arrays can be multidimensional.</p>
+<p>Data frames have columns with different meanings, or variables. It is basically a list where the lengths of the entries are the same. Data for input into regression analyses or plotting are typically put into data frames.</p>
+<pre class="r"><code>mat.ex = matrix(c(1,2,3,4,5,6), nrow = 2)
+dim(mat.ex)</code></pre>
+<pre><code>## [1] 2 3</code></pre>
+<pre class="r"><code>mat.ex</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    3    5
+## [2,]    2    4    6</code></pre>
+<pre class="r"><code>array.ex = array(c(1:24), c(4, 3, 2))
+dim(array.ex)</code></pre>
+<pre><code>## [1] 4 3 2</code></pre>
+<pre class="r"><code>array.ex</code></pre>
+<pre><code>## , , 1
+## 
+##      [,1] [,2] [,3]
+## [1,]    1    5    9
+## [2,]    2    6   10
+## [3,]    3    7   11
+## [4,]    4    8   12
+## 
+## , , 2
+## 
+##      [,1] [,2] [,3]
+## [1,]   13   17   21
+## [2,]   14   18   22
+## [3,]   15   19   23
+## [4,]   16   20   24</code></pre>
+<pre class="r"><code>list.ex = list()
+list.ex$a = c(1:10)
+list.ex$b = c(45:70)
+list.ex$c = factor(c(&quot;a1&quot;, &quot;b1&quot;, &quot;c1&quot;))
+list.ex$d = as.character(c(&quot;bat&quot;, &quot;cat&quot;, &quot;bird&quot;, &quot;dog&quot;))
+length(list.ex)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>list.ex</code></pre>
+<pre><code>## $a
+##  [1]  1  2  3  4  5  6  7  8  9 10
+## 
+## $b
+##  [1] 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
+## [24] 68 69 70
+## 
+## $c
+## [1] a1 b1 c1
+## Levels: a1 b1 c1
+## 
+## $d
+## [1] &quot;bat&quot;  &quot;cat&quot;  &quot;bird&quot; &quot;dog&quot;</code></pre>
+<pre class="r"><code>col1 = c(1:10)
+col2 = c(21:30)
+col3 = rep(c(&quot;a1&quot;, &quot;b1&quot;), each = 5)
+data.frame.ex = data.frame(col1, col2, col3)
+data.frame.ex</code></pre>
+<pre><code>##    col1 col2 col3
+## 1     1   21   a1
+## 2     2   22   a1
+## 3     3   23   a1
+## 4     4   24   a1
+## 5     5   25   a1
+## 6     6   26   b1
+## 7     7   27   b1
+## 8     8   28   b1
+## 9     9   29   b1
+## 10   10   30   b1</code></pre>
+<pre class="r"><code>dim(data.frame.ex)</code></pre>
+<pre><code>## [1] 10  3</code></pre>
+<pre class="r"><code>names(data.frame.ex)</code></pre>
+<pre><code>## [1] &quot;col1&quot; &quot;col2&quot; &quot;col3&quot;</code></pre>
+<pre class="r"><code># you can easily convert a matrix to a data.frame and add names
+df.ex2 = matrix(1:18, ncol = 3)
+df.ex2 = data.frame(df.ex2)
+names(df.ex2) = c(&quot;col1&quot;, &quot;col2&quot;, &quot;col3&quot;)
+df.ex2</code></pre>
+<pre><code>##   col1 col2 col3
+## 1    1    7   13
+## 2    2    8   14
+## 3    3    9   15
+## 4    4   10   16
+## 5    5   11   17
+## 6    6   12   18</code></pre>
+<p>Summary of functions used in this section: <span class="math inline">\(\beta\)</span></p>
+<table>
+<thead>
+<tr class="header">
+<th>Table Header</th>
+<th>Second Header</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Table Cell</td>
+<td>Cell 2</td>
+</tr>
+<tr class="even">
+<td>Cell 3</td>
+<td>Cell 4</td>
+</tr>
+</tbody>
+</table>
+<p>class : Tells you the data type in your vector as.factor/as.character/as.numeric : ways to create factors, characters and numeric data TRUE, FALSE, NA: Not actually functions, but special values that R treats as logicals and missing values, respectively</p>
 </div>
 
 
