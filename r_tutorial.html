@@ -124,10 +124,24 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#installing-r-and-getting-started">1 Installing R and getting started</a><ul>
+<li><a href="#on-your-own">On your own</a></li>
 <li><a href="#summary-of-functions-from-section-1">Summary of functions from Section 1</a></li>
 </ul></li>
 <li><a href="#how-data-are-stored">2 How data are stored</a><ul>
+<li><a href="#on-your-own-1">On your own</a></li>
 <li><a href="#summary-of-functions-from-section-2">Summary of functions from Section 2</a></li>
+</ul></li>
+<li><a href="#simple-commands">3 Simple commands</a><ul>
+<li><a href="#on-your-own-2">On your own</a></li>
+<li><a href="#summary-of-functions-from-section-3">Summary of functions from Section 3</a></li>
+</ul></li>
+<li><a href="#looping">4 Looping</a><ul>
+<li><a href="#on-your-own-3">On your own</a></li>
+<li><a href="#summary-of-functions-from-section-4">Summary of functions from Section 4</a></li>
+</ul></li>
+<li><a href="#decision-making">5 Decision making</a><ul>
+<li><a href="#on-your-own-4">On your own</a></li>
+<li><a href="#summary-of-functions-from-section-5">Summary of functions from Section 5</a></li>
 </ul></li>
 </ul>
 </div>
@@ -156,7 +170,7 @@ options(repos=structure(c(CRAN=&quot;http://cran.us.r-project.org&quot;)))
 install.packages(&quot;ggplot2&quot;)</code></pre>
 <pre><code>## 
 ## The downloaded binary packages are in
-##  /var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//Rtmp45Z5d8/downloaded_packages</code></pre>
+##  /var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//RtmpBQW6EG/downloaded_packages</code></pre>
 <pre class="r"><code># To load the library so you can access the functions 
 
 # Run once per session if you'd like to use it
@@ -192,17 +206,20 @@ paste0(&quot;variable&quot;, x)</code></pre>
 sprintf(&quot;variable%s&quot;, x)</code></pre>
 <pre><code>## [1] &quot;variable10&quot;</code></pre>
 <pre class="r"><code># the %s acts as a fill in the blank for strings.  You'd need to change this for number input</code></pre>
+<div id="on-your-own" class="section level3">
+<h3>On your own</h3>
 <p>Play around with the paste or sprintf commands. Try to create a variable called “variable10” that has a value of 4 using the following:</p>
 <pre class="r"><code>a = &quot;variable&quot;
 b = 10
 c = 4</code></pre>
+</div>
 <div id="summary-of-functions-from-section-1" class="section level3">
 <h3>Summary of functions from Section 1</h3>
 <p>For more information about any of these functions, simply type ?function.name at the R prompt to open the help. Eg, ?options will tell you more about options().</p>
-<table style="width:39%;">
+<table style="width:72%;">
 <colgroup>
-<col width="19%"></col>
-<col width="19%"></col>
+<col width="36%"></col>
+<col width="36%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -258,21 +275,20 @@ names = c(&quot;Anne&quot;, &quot;Sean&quot;, &quot;Lilly&quot;, &quot;Logan&quo
 class(names)</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <pre class="r"><code># Factors
-gender = c(&quot;m&quot;, &quot;f&quot;, &quot;m&quot;, &quot;f&quot;, &quot;m&quot;,&quot;m&quot;, &quot;f&quot;)  # here is it a character
+gender = c(&quot;m&quot;, &quot;f&quot;, &quot;m&quot;, &quot;f&quot;, &quot;m&quot;,&quot;m&quot;, &quot;f&quot;)  # here it is a character
 gender.factor = as.factor(gender)        
 gender.factor</code></pre>
 <pre><code>## [1] m f m f m m f
 ## Levels: f m</code></pre>
 <pre class="r"><code>class(gender)</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>class(gender.factor)</code></pre>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
 <pre class="r"><code># Logicals
-a = 1&lt;3
-class(a)</code></pre>
-<pre><code>## [1] &quot;logical&quot;</code></pre>
-<pre class="r"><code># OR
+# I'll cover how you generate T/F values in the next section
+#  but the TRUE/FALSE input in R are special and are automatically 
+#  recognized as logical values.  Importantly, don't use quotes!
 b = c(TRUE, FALSE, TRUE, TRUE)
-# Note I didn't use quotes to create b.  There are some special strings in 
-# R that don't use quotes, including, NA, NaN, TRUE and FALSE.  That's because these aren't strings, but serve a different purpose.
 class(b)</code></pre>
 <pre><code>## [1] &quot;logical&quot;</code></pre>
 <p>The reason R has factors relates to the main purpose of R: run statistical analyses. In many models you run with categorical variables, there’s a specific baseline comparison that makes the most sense. For example, if I ran a model with three groups, adhd, bipolar and controls, I might prefer my regression coefficients use the control group as the reference and that’s exactly what factors do, they allow you to set the reference.</p>
@@ -351,6 +367,9 @@ length(list.ex)</code></pre>
 ## 
 ## $d
 ## [1] &quot;bat&quot;  &quot;cat&quot;  &quot;bird&quot; &quot;dog&quot;</code></pre>
+<pre class="r"><code># you can pull out one element of the list using $
+list.ex$d</code></pre>
+<pre><code>## [1] &quot;bat&quot;  &quot;cat&quot;  &quot;bird&quot; &quot;dog&quot;</code></pre>
 <pre class="r"><code>col1 = c(1:10)
 col2 = c(21:30)
 col3 = rep(c(&quot;a1&quot;, &quot;b1&quot;), each = 5)
@@ -371,6 +390,23 @@ data.frame.ex</code></pre>
 <pre><code>## [1] 10  3</code></pre>
 <pre class="r"><code>names(data.frame.ex)</code></pre>
 <pre><code>## [1] &quot;col1&quot; &quot;col2&quot; &quot;col3&quot;</code></pre>
+<pre class="r"><code># you can pull columns of a data frame out using the column name
+data.frame.ex$col1</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code># you can also add a new column to a pre-existing data frame
+data.frame.ex$col4 = rep(c(&quot;m&quot;, &quot;f&quot;), 5)
+data.frame.ex</code></pre>
+<pre><code>##    col1 col2 col3 col4
+## 1     1   21   a1    m
+## 2     2   22   a1    f
+## 3     3   23   a1    m
+## 4     4   24   a1    f
+## 5     5   25   a1    m
+## 6     6   26   b1    f
+## 7     7   27   b1    m
+## 8     8   28   b1    f
+## 9     9   29   b1    m
+## 10   10   30   b1    f</code></pre>
 <pre class="r"><code># you can easily convert a matrix to a data.frame and add names
 df.ex2 = matrix(1:18, ncol = 3)
 df.ex2 = data.frame(df.ex2)
@@ -383,12 +419,40 @@ df.ex2</code></pre>
 ## 4    4   10   16
 ## 5    5   11   17
 ## 6    6   12   18</code></pre>
+<p>It is easy to construct diagonal matrices and extract diagonals from matrices in R. The same command is use.</p>
+<pre class="r"><code>a = matrix(1:9, nrow = 3)
+diag(a)</code></pre>
+<pre><code>## [1] 1 5 9</code></pre>
+<pre class="r"><code>diag(c(1,2,3))</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    0    2    0
+## [3,]    0    0    3</code></pre>
+<pre class="r"><code># you can even change the diagonal of the matrix
+# Here I'll change it to 1s
+a</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<pre class="r"><code>diag(a) = 1
+a</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    1    8
+## [3,]    3    6    1</code></pre>
+<div id="on-your-own-1" class="section level3">
+<h3>On your own</h3>
+<p>Relevel only allows you to change the baseline level of a factor, but for plotting in ggplot you’ll often want to change the overall order of the levels of a factor. For the following, use the factor function and the “levels” option within it (look at the help for more details) to change the following factor so the levels are in the order: ctrl, bipolar, adhd.</p>
+<pre class="r"><code>group = factor(c(&quot;adhd&quot;, &quot;bipolar&quot;, &quot;ctrl&quot;))</code></pre>
+<p>Secondly, with the rep command I used above, make sure you understand what it is doing differently when I add the “each” option.</p>
+</div>
 <div id="summary-of-functions-from-section-2" class="section level3">
 <h3>Summary of functions from Section 2</h3>
-<table style="width:39%;">
+<table style="width:72%;">
 <colgroup>
-<col width="19%"></col>
-<col width="19%"></col>
+<col width="36%"></col>
+<col width="36%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -410,37 +474,377 @@ df.ex2</code></pre>
 <td>Use without quotes when creating data to indicate logical or missing data</td>
 </tr>
 <tr class="even">
+<td>relevel</td>
+<td>Change the order of levels of a factor</td>
+</tr>
+<tr class="odd">
 <td>matrix</td>
 <td>How to create a matrix</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>array</td>
 <td>How to create an array</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>data.frame</td>
 <td>How to create a data frame</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>list</td>
 <td>How to create a list</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>names</td>
 <td>How to access names of data.frame (for viewing or changing)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>dim</td>
 <td>How to look at the dimension of your matrix/array/data.frame</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>length</td>
 <td>How to look at lengths of vectors/lists/etc</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>?</td>
 <td>How you get help, eg. ?matrix will give the help for as.matrix</td>
 </tr>
+<tr class="odd">
+<td>rep</td>
+<td>repeat things. Note how I used each, vs when I didn’t use each</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="simple-commands" class="section level2">
+<h2>3 Simple commands</h2>
+<p>Above we’ve already seen that scalar math works as we’d expect, but here are a couple of extras.</p>
+<pre class="r"><code>3 + 2</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>3 - 2</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>3 / 2</code></pre>
+<pre><code>## [1] 1.5</code></pre>
+<pre class="r"><code>3 * 2</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="r"><code>3 %% 2 # modulus 3 mod 2</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>3^2</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="r"><code># You can also use
+3**2</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="r"><code>sqrt(3)</code></pre>
+<pre><code>## [1] 1.732051</code></pre>
+<p>Matrix math is a bit cumbersome</p>
+<pre class="r"><code>a = matrix(c(1, 2, 3, 2, 1, 2, 2, 2, 1), nrow = 3)
+a</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    2    2
+## [2,]    2    1    2
+## [3,]    3    2    1</code></pre>
+<pre class="r"><code># transpose
+t(a)</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    2    1    2
+## [3,]    2    2    1</code></pre>
+<pre class="r"><code># multiplication
+a%*%a</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   11    8    8
+## [2,]   10    9    8
+## [3,]   10   10   11</code></pre>
+<pre class="r"><code># inverse 
+solve(a)</code></pre>
+<pre><code>##            [,1]       [,2]       [,3]
+## [1,] -0.4285714  0.2857143  0.2857143
+## [2,]  0.5714286 -0.7142857  0.2857143
+## [3,]  0.1428571  0.5714286 -0.4285714</code></pre>
+<p>Extracting parts of a matrix is similar to other programs.</p>
+<pre class="r"><code>a = matrix(c(1:9), nrow = 3)
+a</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<pre class="r"><code># First row
+a[1,]</code></pre>
+<pre><code>## [1] 1 4 7</code></pre>
+<pre class="r"><code># First column
+a[,1]</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code># Second and third entry of the third row
+a[3, 2:3]</code></pre>
+<pre><code>## [1] 6 9</code></pre>
+<p>I’ve been using, for example, code like c(1:9) to create sequences, but there are other options.</p>
+<pre class="r"><code># sequence from 1 to 9
+seq(1, 9)</code></pre>
+<pre><code>## [1] 1 2 3 4 5 6 7 8 9</code></pre>
+<pre class="r"><code># sequence from 1 to 9 in increments of 2
+seq(1, 9, 2)</code></pre>
+<pre><code>## [1] 1 3 5 7 9</code></pre>
+<pre class="r"><code># sequence that count from 1 to 9 in increments such that the vector has a length of 11
+seq(1, 9, length.out = 11)</code></pre>
+<pre><code>##  [1] 1.0 1.8 2.6 3.4 4.2 5.0 5.8 6.6 7.4 8.2 9.0</code></pre>
+<p>The usual logical operators are available as well.</p>
+<pre class="r"><code>a = c(1, 2, 3)
+b = c(2, 2, 1)
+
+a&lt;b</code></pre>
+<pre><code>## [1]  TRUE FALSE FALSE</code></pre>
+<pre class="r"><code>a&lt;=b</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
+<pre class="r"><code>a&gt;b</code></pre>
+<pre><code>## [1] FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code>a!=b</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>a==b</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE</code></pre>
+<p>You can also combine using and/or.</p>
+<pre class="r"><code>c = c(4, 2, 1)
+
+(a==b) &amp; (b==c)</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code>(a==b) | (b==c)</code></pre>
+<pre><code>## [1] FALSE  TRUE  TRUE</code></pre>
+<p>Handily (at least I think so) if you try to do math with a vector of TRUE/FALSE, the data are treated as 1/0 (1=TRUE)</p>
+<pre class="r"><code>d = (a==b)
+2*d</code></pre>
+<pre><code>## [1] 0 2 0</code></pre>
+<p>You can use logical operators to pull out parts of a matrix or change the matrix</p>
+<pre class="r"><code>a = matrix(1:9, nrow = 3)
+# Values in a that are larger than 3
+a[a&gt;3]</code></pre>
+<pre><code>## [1] 4 5 6 7 8 9</code></pre>
+<pre class="r"><code># Change values larger than 3 to 0
+a[a&gt;3] = 0
+a</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    2    0    0
+## [3,]    3    0    0</code></pre>
+<div id="on-your-own-2" class="section level3">
+<h3>On your own</h3>
+<p>Create a matrix with 3s on the main diagonal and 0s elsewhere and invert it. Above you created an array called array.ex that is basically two 4x3 matrices stacked in the third dimension. Multiply together the first 4x3 matrix and the transpose of the second 4x3 matrix.</p>
+</div>
+<div id="summary-of-functions-from-section-3" class="section level3">
+<h3>Summary of functions from Section 3</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Function Name</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>%%</td>
+<td>Modulus</td>
+</tr>
+<tr class="even">
+<td>^ or **</td>
+<td>raise a number to a power</td>
+</tr>
+<tr class="odd">
+<td>sqrt</td>
+<td>square root</td>
+</tr>
+<tr class="even">
+<td>t()</td>
+<td>Transpose of a matrix</td>
+</tr>
+<tr class="odd">
+<td>%*%</td>
+<td>Matrix multiplication</td>
+</tr>
+<tr class="even">
+<td>solve()</td>
+<td>Matrix inverse</td>
+</tr>
+<tr class="odd">
+<td>a[b,]</td>
+<td>extract bth row from matrix, a</td>
+</tr>
+<tr class="even">
+<td>a[,b]</td>
+<td>extract bth column from matrix, a</td>
+</tr>
+<tr class="odd">
+<td>&lt;, &lt;=, &gt;, &gt;=, ==,!=</td>
+<td>Logical operators</td>
+</tr>
+<tr class="even">
+<td>&amp;, |</td>
+<td>“And” and “Or”</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="looping" class="section level2">
+<h2>4 Looping</h2>
+<p>Looping in R has similar structure to other programs. Bascially, you can loop through anything: numbers, characters, factors, etc.</p>
+<pre class="r"><code>a = c(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;)
+for (i in a){
+  print(i)
+}</code></pre>
+<pre><code>## [1] &quot;one&quot;
+## [1] &quot;two&quot;
+## [1] &quot;three&quot;</code></pre>
+<pre class="r"><code>a = c(1:3)
+for (i in a){
+  print(i)
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3</code></pre>
+<pre class="r"><code># Equivalently
+for (i in 1:3){
+  print(i)
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3</code></pre>
+<p>If you’re building a vector with a for loop, it is better to create an empty vector first and fill it. The following illustrates the two styles and introduces the proc.time() function, which can be used to time procedures in R.</p>
+<pre class="r"><code>start = proc.time()
+# Initialize with a vector of 0s
+vec = rep(0, 10000)
+for (i in 1:10000){
+  vec[i] = i
+}
+proc.time() - start</code></pre>
+<pre><code>##    user  system elapsed 
+##   0.018   0.000   0.018</code></pre>
+<pre class="r"><code>start = proc.time()
+# Initialize with an empty vector 
+vec = c()
+for (i in 1:10000){
+  #concatenate on each iteration
+  vec = c(vec, i)
+}
+proc.time() - start</code></pre>
+<pre><code>##    user  system elapsed 
+##   0.235   0.009   0.246</code></pre>
+<p>While loops are used when you don’t know how long something will take. For example, if I’m randomly generating trial orderings, but I have 3-4 criteria that must be met for that trial order to work in my experiment I use a while loop. For example, no more than 3 trials of the same type in a row, etc.</p>
+<pre class="r"><code># Start simple
+stop = 10
+
+while (stop &gt; 1){
+  print(stop)
+  stop = stop -1
+}</code></pre>
+<pre><code>## [1] 10
+## [1] 9
+## [1] 8
+## [1] 7
+## [1] 6
+## [1] 5
+## [1] 4
+## [1] 3
+## [1] 2</code></pre>
+<p>Historically R has been very, very slow at looping and it is often advised to avoid loops when you can. Matrix math tricks can often help, if you’re comfortable with that, but there are also functions that can help cut down on looping. The apply() function is a good example. It allows you to apply an operation along one of the dimensions of an array.</p>
+<pre class="r"><code># I'll get row averages
+a = matrix(c(1:9), nrow = 3)
+apply(a, 1, mean)</code></pre>
+<pre><code>## [1] 4 5 6</code></pre>
+<pre class="r"><code># Column averages
+apply(a, 2, mean)</code></pre>
+<pre><code>## [1] 2 5 8</code></pre>
+<pre class="r"><code># Standard deviation within each row
+apply(a, 1, sd)</code></pre>
+<pre><code>## [1] 3 3 3</code></pre>
+<pre class="r"><code># Works on arrays also.  
+b = array(c(1:12), c(2, 3, 2))
+# If I want the sum across the first dimension
+# then the result is in the 2:3 dimensions
+apply(b, c(2:3), sum)</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    3   15
+## [2,]    7   19
+## [3,]   11   23</code></pre>
+<pre class="r"><code># If I want the sum within each of the 3rd dimensions
+apply(b, 3, sum)</code></pre>
+<pre><code>## [1] 21 57</code></pre>
+<div id="on-your-own-3" class="section level3">
+<h3>On your own</h3>
+<p>Write the for loops that give the same results as the two apply function examples above.</p>
+</div>
+<div id="summary-of-functions-from-section-4" class="section level3">
+<h3>Summary of functions from Section 4</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Function Name</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>for (x in variable){}</td>
+<td>Basic for loop structure</td>
+</tr>
+<tr class="even">
+<td>while (logical){}</td>
+<td>Basic while loop structure</td>
+</tr>
+<tr class="odd">
+<td>sample()</td>
+<td>Sample data with or without replacement</td>
+</tr>
+<tr class="even">
+<td>apply()</td>
+<td>Apply an operation along dimension(s) of an array</td>
+</tr>
+<tr class="odd">
+<td>mean()</td>
+<td>Average</td>
+</tr>
+<tr class="even">
+<td>sum()</td>
+<td>Summation function</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="decision-making" class="section level2">
+<h2>5 Decision making</h2>
+<p>The if/else statement is frequently used in programming and there are a couple of ways to do it in R. The classical style is in the following example.</p>
+<pre class="r"><code>x = -5
+if(x &gt; 0){
+   print(&quot;Non-negative number&quot;)
+} else {
+   print(&quot;Negative number&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;Negative number&quot;</code></pre>
+<p>A shortcut for simple if/else statement is the ifelse function</p>
+<pre class="r"><code>ifelse(x&gt;0, &quot;Non-negative number&quot;, &quot;Negative number&quot;)</code></pre>
+<pre><code>## [1] &quot;Negative number&quot;</code></pre>
+<p>The if/else statement can have nesting as well</p>
+<pre class="r"><code>if (x &lt; 0) {
+   print(&quot;Negative number&quot;)
+} else if (x &gt; 0) {
+   print(&quot;Positive number&quot;)
+} else {
+   print(&quot;Zero&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;Negative number&quot;</code></pre>
+<div id="on-your-own-4" class="section level3">
+<h3>On your own</h3>
+<p>The Fibonacci numbers are the sequence of numbers defined by the linear recurrence equation Fn = Fn−1 + Fn−2 where F1 = F2 = 1. So the first 5 terms are 1, 1, 2, 3, 5. Using a for loop and if statement, generate the first 8 terms of the Fibonacci sequence</p>
+</div>
+<div id="summary-of-functions-from-section-5" class="section level3">
+<h3>Summary of functions from Section 5</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Function Name</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
 </tbody>
 </table>
 </div>

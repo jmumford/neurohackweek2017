@@ -33,7 +33,7 @@ install.packages("ggplot2")
 ```
 ## 
 ## The downloaded binary packages are in
-## 	/var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//Rtmp45Z5d8/downloaded_packages
+## 	/var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//RtmpBQW6EG/downloaded_packages
 ```
 
 ```r
@@ -117,6 +117,8 @@ sprintf("variable%s", x)
 ```r
 # the %s acts as a fill in the blank for strings.  You'd need to change this for number input
 ```
+
+### On your own
 Play around with the paste or sprintf commands.  Try to create a variable called "variable10" that has a value of 4 using the following:
 
 ```r
@@ -129,7 +131,7 @@ c = 4
 For more information about any of these functions, simply type ?function.name at the R prompt to open the help.  Eg, ?options will tell you more about options().
 
 Function Name | What it does
-------------- | -------------
+------------------------- | -------------------------
 options | Let's you set various global options in R
 install.packages | Used to install packages.  Only install once.
 library | Load a library.  Needed each session 
@@ -167,7 +169,7 @@ class(names)
 
 ```r
 # Factors
-gender = c("m", "f", "m", "f", "m","m", "f")  # here is it a character
+gender = c("m", "f", "m", "f", "m","m", "f")  # here it is a character
 gender.factor = as.factor(gender)        
 gender.factor
 ```
@@ -186,20 +188,19 @@ class(gender)
 ```
 
 ```r
-# Logicals
-a = 1<3
-class(a)
+class(gender.factor)
 ```
 
 ```
-## [1] "logical"
+## [1] "factor"
 ```
 
 ```r
-# OR
+# Logicals
+# I'll cover how you generate T/F values in the next section
+#  but the TRUE/FALSE input in R are special and are automatically 
+#  recognized as logical values.  Importantly, don't use quotes!
 b = c(TRUE, FALSE, TRUE, TRUE)
-# Note I didn't use quotes to create b.  There are some special strings in 
-# R that don't use quotes, including, NA, NaN, TRUE and FALSE.  That's because these aren't strings, but serve a different purpose.
 class(b)
 ```
 
@@ -357,6 +358,15 @@ list.ex
 ```
 
 ```r
+# you can pull out one element of the list using $
+list.ex$d
+```
+
+```
+## [1] "bat"  "cat"  "bird" "dog"
+```
+
+```r
 col1 = c(1:10)
 col2 = c(21:30)
 col3 = rep(c("a1", "b1"), each = 5)
@@ -395,6 +405,35 @@ names(data.frame.ex)
 ```
 
 ```r
+# you can pull columns of a data frame out using the column name
+data.frame.ex$col1
+```
+
+```
+##  [1]  1  2  3  4  5  6  7  8  9 10
+```
+
+```r
+# you can also add a new column to a pre-existing data frame
+data.frame.ex$col4 = rep(c("m", "f"), 5)
+data.frame.ex
+```
+
+```
+##    col1 col2 col3 col4
+## 1     1   21   a1    m
+## 2     2   22   a1    f
+## 3     3   23   a1    m
+## 4     4   24   a1    f
+## 5     5   25   a1    m
+## 6     6   26   b1    f
+## 7     7   27   b1    m
+## 8     8   28   b1    f
+## 9     9   29   b1    m
+## 10   10   30   b1    f
+```
+
+```r
 # you can easily convert a matrix to a data.frame and add names
 df.ex2 = matrix(1:18, ncol = 3)
 df.ex2 = data.frame(df.ex2)
@@ -412,13 +451,70 @@ df.ex2
 ## 6    6   12   18
 ```
 
+It is easy to construct diagonal matrices and extract diagonals from matrices in R.  The same command is use.
+
+```r
+a = matrix(1:9, nrow = 3)
+diag(a)
+```
+
+```
+## [1] 1 5 9
+```
+
+```r
+diag(c(1,2,3))
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    0    2    0
+## [3,]    0    0    3
+```
+
+```r
+# you can even change the diagonal of the matrix
+# Here I'll change it to 1s
+a
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9
+```
+
+```r
+diag(a) = 1
+a
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    1    8
+## [3,]    3    6    1
+```
+
+### On your own
+Relevel only allows you to change the baseline level of a factor, but for plotting in ggplot you'll often want to change the overall order of the levels of a factor.  For the following, use the factor function and the "levels" option within it (look at the help for more details) to change the following factor so the levels are in the order: ctrl, bipolar, adhd.
+
+```r
+group = factor(c("adhd", "bipolar", "ctrl"))
+```
+
+Secondly, with the rep command I used above, make sure you understand what it is doing differently when I add the "each" option.
+
 ### Summary of functions from Section 2
 
 Function Name | What it does
-------------- | -------------
+------------------------- | -------------------------
 class | Tells you the data type
 as.factor/as.character/as.numeric | set data type to factor/character/numeric
 special values: TRUE, FALSE, NA | Use without quotes when creating data to indicate logical or missing data
+relevel | Change the order of levels of a factor
 matrix| How to create a matrix
 array | How to create an array
 data.frame | How to create a data frame
@@ -427,4 +523,516 @@ names | How to access names of data.frame (for viewing or changing)
 dim | How to look at the dimension of your matrix/array/data.frame
 length|  How to look at lengths of vectors/lists/etc
 ? | How you get help, eg. ?matrix will give the help for as.matrix
+rep | repeat things.  Note how I used each, vs when I didn't use each
 
+## 3 Simple commands
+Above we've already seen that scalar math works as we'd expect, but here are a couple of extras.
+
+```r
+3 + 2
+```
+
+```
+## [1] 5
+```
+
+```r
+3 - 2
+```
+
+```
+## [1] 1
+```
+
+```r
+3 / 2
+```
+
+```
+## [1] 1.5
+```
+
+```r
+3 * 2
+```
+
+```
+## [1] 6
+```
+
+```r
+3 %% 2 # modulus 3 mod 2
+```
+
+```
+## [1] 1
+```
+
+```r
+3^2
+```
+
+```
+## [1] 9
+```
+
+```r
+# You can also use
+3**2
+```
+
+```
+## [1] 9
+```
+
+```r
+sqrt(3)
+```
+
+```
+## [1] 1.732051
+```
+Matrix math is a bit cumbersome
+
+```r
+a = matrix(c(1, 2, 3, 2, 1, 2, 2, 2, 1), nrow = 3)
+a
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    2    2
+## [2,]    2    1    2
+## [3,]    3    2    1
+```
+
+```r
+# transpose
+t(a)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    2    1    2
+## [3,]    2    2    1
+```
+
+```r
+# multiplication
+a%*%a
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]   11    8    8
+## [2,]   10    9    8
+## [3,]   10   10   11
+```
+
+```r
+# inverse 
+solve(a)
+```
+
+```
+##            [,1]       [,2]       [,3]
+## [1,] -0.4285714  0.2857143  0.2857143
+## [2,]  0.5714286 -0.7142857  0.2857143
+## [3,]  0.1428571  0.5714286 -0.4285714
+```
+Extracting parts of a matrix is similar to other programs.
+
+```r
+a = matrix(c(1:9), nrow = 3)
+a
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9
+```
+
+```r
+# First row
+a[1,]
+```
+
+```
+## [1] 1 4 7
+```
+
+```r
+# First column
+a[,1]
+```
+
+```
+## [1] 1 2 3
+```
+
+```r
+# Second and third entry of the third row
+a[3, 2:3]
+```
+
+```
+## [1] 6 9
+```
+I've been using, for example, code like c(1:9) to create sequences, but there are other options.
+
+```r
+# sequence from 1 to 9
+seq(1, 9)
+```
+
+```
+## [1] 1 2 3 4 5 6 7 8 9
+```
+
+```r
+# sequence from 1 to 9 in increments of 2
+seq(1, 9, 2)
+```
+
+```
+## [1] 1 3 5 7 9
+```
+
+```r
+# sequence that count from 1 to 9 in increments such that the vector has a length of 11
+seq(1, 9, length.out = 11)
+```
+
+```
+##  [1] 1.0 1.8 2.6 3.4 4.2 5.0 5.8 6.6 7.4 8.2 9.0
+```
+The usual logical operators are available as well.
+
+```r
+a = c(1, 2, 3)
+b = c(2, 2, 1)
+
+a<b
+```
+
+```
+## [1]  TRUE FALSE FALSE
+```
+
+```r
+a<=b
+```
+
+```
+## [1]  TRUE  TRUE FALSE
+```
+
+```r
+a>b
+```
+
+```
+## [1] FALSE FALSE  TRUE
+```
+
+```r
+a!=b
+```
+
+```
+## [1]  TRUE FALSE  TRUE
+```
+
+```r
+a==b
+```
+
+```
+## [1] FALSE  TRUE FALSE
+```
+You can also combine using and/or.
+
+```r
+c = c(4, 2, 1)
+
+(a==b) & (b==c)
+```
+
+```
+## [1] FALSE  TRUE FALSE
+```
+
+```r
+(a==b) | (b==c)
+```
+
+```
+## [1] FALSE  TRUE  TRUE
+```
+Handily (at least I think so) if you try to do math with a vector of TRUE/FALSE, the data are treated as 1/0 (1=TRUE)
+
+```r
+d = (a==b)
+2*d
+```
+
+```
+## [1] 0 2 0
+```
+You can use logical operators to pull out parts of a matrix or change the matrix
+
+```r
+a = matrix(1:9, nrow = 3)
+# Values in a that are larger than 3
+a[a>3]
+```
+
+```
+## [1] 4 5 6 7 8 9
+```
+
+```r
+# Change values larger than 3 to 0
+a[a>3] = 0
+a
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    2    0    0
+## [3,]    3    0    0
+```
+
+### On your own
+Create a matrix with 3s on the main diagonal and 0s elsewhere and invert it.  Above you created an array called array.ex that is basically two 4x3 matrices stacked in the third dimension. Multiply together the first 4x3 matrix and the transpose of the second 4x3 matrix.
+
+### Summary of functions from Section 3
+
+Function Name | What it does
+------------------------- | -------------------------
+%% | Modulus
+^ or ** | raise a number to a power
+sqrt | square root
+t() | Transpose of a matrix
+%*% | Matrix multiplication
+solve() | Matrix inverse
+a[b,] | extract bth row from matrix, a
+a[,b] | extract bth column from matrix, a
+<, <=, >, >=, ==,!= | Logical operators
+&, \| | "And" and "Or"
+
+## 4 Looping
+Looping in R has similar structure to other programs.  Bascially, you can loop through anything: numbers, characters, factors, etc.
+
+```r
+a = c("one", "two", "three")
+for (i in a){
+  print(i)
+}
+```
+
+```
+## [1] "one"
+## [1] "two"
+## [1] "three"
+```
+
+```r
+a = c(1:3)
+for (i in a){
+  print(i)
+}
+```
+
+```
+## [1] 1
+## [1] 2
+## [1] 3
+```
+
+```r
+# Equivalently
+for (i in 1:3){
+  print(i)
+}
+```
+
+```
+## [1] 1
+## [1] 2
+## [1] 3
+```
+If you're building a vector with a for loop, it is better to create an empty vector first and fill it.  The following illustrates the two styles and introduces the proc.time() function, which can be used to time procedures in R.
+
+```r
+start = proc.time()
+# Initialize with a vector of 0s
+vec = rep(0, 10000)
+for (i in 1:10000){
+  vec[i] = i
+}
+proc.time() - start
+```
+
+```
+##    user  system elapsed 
+##   0.018   0.000   0.018
+```
+
+```r
+start = proc.time()
+# Initialize with an empty vector 
+vec = c()
+for (i in 1:10000){
+  #concatenate on each iteration
+  vec = c(vec, i)
+}
+proc.time() - start
+```
+
+```
+##    user  system elapsed 
+##   0.235   0.009   0.246
+```
+
+While loops are used when you don't know how long something will take.  For example, if I'm randomly generating trial orderings, but I have 3-4 criteria that must be met for that trial order to work in my experiment I use a while loop.  For example, no more than 3 trials of the same type in a row, etc.
+
+
+```r
+# Start simple
+stop = 10
+
+while (stop > 1){
+  print(stop)
+  stop = stop -1
+}
+```
+
+```
+## [1] 10
+## [1] 9
+## [1] 8
+## [1] 7
+## [1] 6
+## [1] 5
+## [1] 4
+## [1] 3
+## [1] 2
+```
+Historically R has been very, very slow at looping and it is often advised to avoid loops when you can.  Matrix math tricks can often help, if you're comfortable with that, but there are also functions that can help cut down on looping.  The apply() function is a good example.  It allows you to apply an operation along one of the dimensions of an array.
+
+```r
+# I'll get row averages
+a = matrix(c(1:9), nrow = 3)
+apply(a, 1, mean)
+```
+
+```
+## [1] 4 5 6
+```
+
+```r
+# Column averages
+apply(a, 2, mean)
+```
+
+```
+## [1] 2 5 8
+```
+
+```r
+# Standard deviation within each row
+apply(a, 1, sd)
+```
+
+```
+## [1] 3 3 3
+```
+
+```r
+# Works on arrays also.  
+b = array(c(1:12), c(2, 3, 2))
+# If I want the sum across the first dimension
+# then the result is in the 2:3 dimensions
+apply(b, c(2:3), sum)
+```
+
+```
+##      [,1] [,2]
+## [1,]    3   15
+## [2,]    7   19
+## [3,]   11   23
+```
+
+```r
+# If I want the sum within each of the 3rd dimensions
+apply(b, 3, sum)
+```
+
+```
+## [1] 21 57
+```
+### On your own
+Write the for loops that give the same results as the two apply function examples above.
+
+### Summary of functions from Section 4
+
+Function Name | What it does
+------------------------- | -------------------------
+for (x in variable){} | Basic for loop structure
+while (logical){} | Basic while loop structure
+sample()  | Sample data with or without replacement
+apply()  |  Apply an operation along dimension(s) of an array
+mean()  | Average
+sum()  | Summation function
+
+## 5 Decision making
+The if/else statement is frequently used in programming and there are a couple of ways to do it in R.  The classical style is in the following example.
+
+```r
+x = -5
+if(x > 0){
+   print("Non-negative number")
+} else {
+   print("Negative number")
+}
+```
+
+```
+## [1] "Negative number"
+```
+A shortcut for simple if/else statement is the ifelse function
+
+```r
+ifelse(x>0, "Non-negative number", "Negative number")
+```
+
+```
+## [1] "Negative number"
+```
+The if/else statement can have nesting as well
+
+```r
+if (x < 0) {
+   print("Negative number")
+} else if (x > 0) {
+   print("Positive number")
+} else {
+   print("Zero")
+}
+```
+
+```
+## [1] "Negative number"
+```
+### On your own
+The Fibonacci numbers are the sequence of numbers defined by the linear recurrence equation Fn = Fn−1 + Fn−2 where F1 = F2 = 1.  So the first 5 terms are 1, 1, 2, 3, 5. Using a for loop and if statement, generate the first 8 terms of the Fibonacci sequence
+
+### Summary of functions from Section 5
+
+Function Name | What it does
+------------------------- | -------------------------
