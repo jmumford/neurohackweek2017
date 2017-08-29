@@ -560,12 +560,109 @@ lines | adds a line to a plot started with plot()
 ggplot | the start of the ggplot plotting function.  Other layers must be added to generate the plot
 geom_line | Tells ggplot that you want a line plot
 
-### 8 Reading in NIfTI files
+##8 Reading in data
+In the past I have used the read.data function to read in data, but now there are faster options that work much better if you're reading in huge data: fread (data.table package) and read_csv (readr library).  More information about these can be found [here](http://analyticstraining.com/2015/if-youre-a-data-analyst-you-should-read-this-review-of-hadleys-readr-0-1-0-right-now/). 
+```{r}
+#install.packages("data.table") # Only run this if you've never installed it
+#install.packages("readr")
+library(data.table)
+library(readr)
+# This is simply the demo from the R help for fread, but it shows how much faster fread is!
+# Make up a data set (I haven't covered data.table, but it is like data.frame)
+n=1e6
+DT = data.table( a=sample(1:1000,n,replace=TRUE),
+                 b=sample(1:1000,n,replace=TRUE),
+                 c=rnorm(n),
+                 d=sample(c("foo","bar","baz","qux","quux"),n,replace=TRUE),
+                 e=rnorm(n),
+                 f=sample(1:1000,n,replace=TRUE) )
+# Save it and get the size info
+write.table(DT,"test.csv",sep=",",row.names=FALSE,quote=FALSE)
+cat("File size (MB):", round(file.info("test.csv")$size/1024^2),"\n")
+
+#Here is the read.table timing.  The bit in the system.time() is what 
+# you'd typically use to read it in.
+# header=TRUE lets it know there's a header (column names)
+# sep = "," is the delimiter
+# quote="" disables quoting
+# stringsAsFactors=FALSE is really handy, since you often
+#     don't want the strings to automatically be made into factors
+
+# note, the "=" notation won't work since the assignment is within another function
+# so <- is used instead.
+system.time(DF2 <- read.table("test.csv",header=TRUE,sep=",",stringsAsFactors=FALSE))
+class(DF2)
+
+# read_csv from readr
+system.time(DF3 <- read_csv("test.csv"))
+class(DF3)
+
+# fread from data.table
+system.time(DT <- fread("test.csv"))
+class(DT)
+
+```
+It used to be the case the fread was only a data.table format, which made plotting in ggplot2 difficult, since that requires a data.frame.  Guess they've changed it!  I would use either fread or read_csv, although read_csv will only work for comma delimited files.  Now for some cleanup, since we created a big file that we don't need...
+```{r}
+# system() allows us to run a command in the Linux environment
+system("rm test.csv")
+```
+
+### Summary of functions from Section 8
+
+Function Name | What it does
+------------------------- | -------------------------
+read.table | Older function for reading in data.  Flexible, but slow
+fread | Part of data.table library. Fast and simple way to read in data.  Once loaded data is both a data.table and data.frame, which is good for things like ggplot2
+read_csv | part of readr library.  Not as fast as fread, but treats as tbl_df, tble and data.frame
+system | Allows you to run commands in Linux/Unix via R
+
+
+##9 Other useful things I probably won't have time to cover
+I'm guessing we will have run out of town by this point, but I wanted to mention the extremely useful tidyr and dplyr libraries.  Together these two libraries provide really great functions for manipulating data frames.  Here's a [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) and you can read more about it [here](https://rpubs.com/bradleyboehmke/data_wrangling).  A couple of quick examples are in the following.  Typically I use it to convert between wide and long data formats. 
+```{r}
+# install.packages("dplyr")
+# install.packages("tidyr")
+# install.packages("Lahman")
+library(dplyr)
+library(tidyr)
+library(Lahman)  #I'm using a data set from this library
+
+# Use this Batting data (this is in the Lahman library)
+dim(Batting)
+names(Batting)
+
+players = group_by(Batting, playerID)
+#players looks the same, but has more info, as the grouping has been defined
+dim(players)
+dim(Batting)
+head(players)
+head(Batting)
+# Now I can create easy summaries, over players...
+games = summarise(players, total = sum(G))
+
+# dplyr adds the %>% function, which serves as a "pipe", piping the output from one
+#  command into the input of the next.  Really cleans up code.  This does what the above code did
+games.using.dplyr = Batting %>%
+  group_by(playerID) %>%
+  summarise(total = sum(G))
+```
+### Summary of functions from Section 9
+
+Function Name | What it does
+------------------------- | -------------------------
+tidy (library)  | really useful library of functions
+dplry (library) | Another really useful library
+groupby | Function that adds grouping to data frame
+summarise | Once data are grouped (using groupby) allows summaries within group
+%>%  | The piping function from dplyr.  Once you get the hang of this, it is a fantastic tool
+## 10 Reading in NIfTI files
 There are more and more libraries for dealing with fMRI data, or simulating fMRI data, but I typically use the fmri library to read in NIfTI data.  The only snag is the nifti file needs to be unzipped first.
 ```{r}
 library(fmri)
 # First load in the structure
 # This file is already unzipped
 dat.struct = read.NIFTI("~/Dropbox/NeuroHackWeek/bold.nii")
-dat = 
+dat = extract.data(dat.struct)
+dim(dat)
 ```

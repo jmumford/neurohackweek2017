@@ -33,7 +33,7 @@ install.packages("ggplot2")
 ```
 ## 
 ## The downloaded binary packages are in
-## 	/var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//RtmpBQW6EG/downloaded_packages
+## 	/var/folders/yq/bcmg29nn0cj36tgk87ysnvq80000gn/T//RtmpMDJcrr/downloaded_packages
 ```
 
 ```r
@@ -880,7 +880,7 @@ proc.time() - start
 
 ```
 ##    user  system elapsed 
-##   0.018   0.000   0.018
+##   0.017   0.000   0.017
 ```
 
 ```r
@@ -896,7 +896,7 @@ proc.time() - start
 
 ```
 ##    user  system elapsed 
-##   0.235   0.009   0.246
+##   0.239   0.007   0.248
 ```
 
 While loops are used when you don't know how long something will take.  For example, if I'm randomly generating trial orderings, but I have 3-4 criteria that must be met for that trial order to work in my experiment I use a while loop.  For example, no more than 3 trials of the same type in a row, etc.
@@ -1036,3 +1036,486 @@ The Fibonacci numbers are the sequence of numbers defined by the linear recurren
 
 Function Name | What it does
 ------------------------- | -------------------------
+if(condition){}else{}  | Structure of if/else
+ifelse(condition, true, false) | Shorter if/else option
+
+## 6 Writing functions
+If you find yourself copying and pasting a chunk of code to reuse it, you should probably just write a function for that code.  Functions are also useful if you're looking to do something using the apply() function that doesn't have a function to apply already.  For example, if I want to run a regression over 10,000 voxels and save the p-value, I can create a function that spits out p-values and then use that with apply to run all of my 10,000 models at once!  It is a bit faster than looping.  First, let's look at a simple example.  Note that lists are often used to pass information out of the function using the return() function.
+
+```r
+# Simple function that determines if a number is odd
+
+isodd = function(input){
+  output = input%%2  # modulo operation from earlier
+  result = output == 1
+  return(result)
+}
+isodd(5)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+isodd(6)
+```
+
+```
+## [1] FALSE
+```
+Here's an example with two input and two values output
+
+```r
+sumprod = function(val1, val2){
+  sumvals = val1 + val2
+  prodvals = val1*val2
+  result = list()
+  result$sumvals = sumvals
+  result$prodvals = prodvals
+  return(result)
+}
+sumprod(1, 5)
+```
+
+```
+## $sumvals
+## [1] 6
+## 
+## $prodvals
+## [1] 5
+```
+
+```r
+sumprod(4, 10)
+```
+
+```
+## $sumvals
+## [1] 14
+## 
+## $prodvals
+## [1] 40
+```
+One thing to be very careful about with functions is that although they are set up to take in variables to do something locally and then pass this back out to the global environment, it can (unfortunately) also use global variables.  In other words, if you already defined x in your R session and you refer to x within your function, the function will work if you forget to feed it in.
+
+```r
+x = 5
+junkFunction = function(a, b){
+  ax = a*x
+  bx = b*x
+  result = list()
+  result$ax = ax
+  result$bx = bx
+  return(result)
+}
+# Even though x isn't fed in, the function grabs it from the global environment.  BE CAREFUL!!
+junkFunction(3, 4)
+```
+
+```
+## $ax
+## [1] 15
+## 
+## $bx
+## [1] 20
+```
+
+## 7 Plotting
+When it comes to plotting, ggplot makes the most beautiful plots (IMHO).  That said, I almost always use simple plotting functions if I'm just quickly running through some analyses.  This could be because ggplot didn't exist when I first learned R, because folks I know who only learn ggplot seem to do okay.  There is a pretty steep learning curve, but once you get the hang of it, it isn't too bad.  Here I'll just show two simple examples of making a plot with two lines using plot and ggplot
+
+```r
+x = seq(1, 10, 0.1)
+cosx = cos(x)
+sinx = sin(x)
+
+# simple function.  Default is points, so I change to line
+plot(x, cosx, type = 'l', col = 'red')
+# Add using lines function
+lines(x, sinx, col = 'cyan')
+# Add a legend
+legend('topleft',c("sin(x)", "cos(x)"), lty = c(1, 1), col = c("red", "cyan"), bty = 'n')
+```
+
+![](r_tutorial_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+
+```r
+# Two things with the above: lty tells legend you want solid lines.  Without that it won't add lines to the legend.  Also, you can see R is a big lacidasical about single vs double quotes.  I'm not consistent and it doesn't (typically) matter.
+
+# Load the ggplot2 library
+library(ggplot2)
+# ggplot wants a data frame in long format
+# Stack the values
+values = c(cosx, sinx)
+# Create a variable that indicates what is being plotted
+function.type = rep(c("cos(x)", "sin(x)"), each = length(x))
+xval = c(x, x)
+plot.dat = data.frame(values, xval, function.type)
+
+ggplot(plot.dat, 
+       aes(x = xval, y = values, colour = function.type))+
+  geom_line()
+```
+
+![](r_tutorial_files/figure-html/unnamed-chunk-32-2.png)<!-- -->
+
+```r
+# If you want cos(x) second in the legend, make function type a factor and relevel
+plot.dat$function.type = factor(plot.dat$function.type, c("sin(x)", "cos(x)"))
+ggplot(plot.dat, 
+       aes(x = xval, y = values, colour = function.type))+
+  geom_line()
+```
+
+![](r_tutorial_files/figure-html/unnamed-chunk-32-3.png)<!-- -->
+There's much, much more you can do with ggplot.  Here's a good [starting point](http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html) if you want to learn more.
+### On your own
+Using ggplot, add a third line to the plot: sin(x)+cos(x).
+
+### Summary of functions from Section 7
+
+Function Name | What it does
+------------------------- | -------------------------
+plot | makes basic plots
+lines | adds a line to a plot started with plot()
+ggplot | the start of the ggplot plotting function.  Other layers must be added to generate the plot
+geom_line | Tells ggplot that you want a line plot
+
+##8 Reading in data
+In the past I have used the read.data function to read in data, but now there are faster options that work much better if you're reading in huge data: fread (data.table package) and read_csv (readr library).  More information about these can be found [here](http://analyticstraining.com/2015/if-youre-a-data-analyst-you-should-read-this-review-of-hadleys-readr-0-1-0-right-now/). 
+
+```r
+#install.packages("data.table") # Only run this if you've never installed it
+#install.packages("readr")
+library(data.table)
+library(readr)
+```
+
+```
+## Warning: package 'readr' was built under R version 3.3.2
+```
+
+```r
+# This is simply the demo from the R help for fread, but it shows how much faster fread is!
+# Make up a data set (I haven't covered data.table, but it is like data.frame)
+n=1e6
+DT = data.table( a=sample(1:1000,n,replace=TRUE),
+                 b=sample(1:1000,n,replace=TRUE),
+                 c=rnorm(n),
+                 d=sample(c("foo","bar","baz","qux","quux"),n,replace=TRUE),
+                 e=rnorm(n),
+                 f=sample(1:1000,n,replace=TRUE) )
+# Save it and get the size info
+write.table(DT,"test.csv",sep=",",row.names=FALSE,quote=FALSE)
+cat("File size (MB):", round(file.info("test.csv")$size/1024^2),"\n")
+```
+
+```
+## File size (MB): 50
+```
+
+```r
+#Here is the read.table timing.  The bit in the system.time() is what 
+# you'd typically use to read it in.
+# header=TRUE lets it know there's a header (column names)
+# sep = "," is the delimiter
+# quote="" disables quoting
+# stringsAsFactors=FALSE is really handy, since you often
+#     don't want the strings to automatically be made into factors
+
+# note, the "=" notation won't work since the assignment is within another function
+# so <- is used instead.
+system.time(DF2 <- read.table("test.csv",header=TRUE,sep=",",stringsAsFactors=FALSE))
+```
+
+```
+##    user  system elapsed 
+##   9.919   0.196  10.163
+```
+
+```r
+class(DF2)
+```
+
+```
+## [1] "data.frame"
+```
+
+```r
+# read_csv from readr
+system.time(DF3 <- read_csv("test.csv"))
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   a = col_integer(),
+##   b = col_integer(),
+##   c = col_double(),
+##   d = col_character(),
+##   e = col_double(),
+##   f = col_integer()
+## )
+```
+
+```
+##    user  system elapsed 
+##   0.829   0.042   0.879
+```
+
+```r
+class(DF3)
+```
+
+```
+## [1] "tbl_df"     "tbl"        "data.frame"
+```
+
+```r
+# fread from data.table
+system.time(DT <- fread("test.csv"))
+```
+
+```
+##    user  system elapsed 
+##   0.434   0.019   0.455
+```
+
+```r
+class(DT)
+```
+
+```
+## [1] "data.table" "data.frame"
+```
+It used to be the case the fread was only a data.table format, which made plotting in ggplot2 difficult, since that requires a data.frame.  Guess they've changed it!  I would use either fread or read_csv, although read_csv will only work for comma delimited files.  Now for some cleanup, since we created a big file that we don't need...
+
+```r
+# system() allows us to run a command in the Linux environment
+system("rm test.csv")
+```
+
+### Summary of functions from Section 8
+
+Function Name | What it does
+------------------------- | -------------------------
+read.table | Older function for reading in data.  Flexible, but slow
+fread | Part of data.table library. Fast and simple way to read in data.  Once loaded data is both a data.table and data.frame, which is good for things like ggplot2
+read_csv | part of readr library.  Not as fast as fread, but treats as tbl_df, tble and data.frame
+system | Allows you to run commands in Linux/Unix via R
+
+
+##9 Other useful things I probably won't have time to cover
+I'm guessing we will have run out of town by this point, but I wanted to mention the extremely useful tidyr and dplyr libraries.  Together these two libraries provide really great functions for manipulating data frames.  Here's a [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) and you can read more about it [here](https://rpubs.com/bradleyboehmke/data_wrangling).  A couple of quick examples are in the following.  Typically I use it to convert between wide and long data formats. 
+
+```r
+# install.packages("dplyr")
+# install.packages("tidyr")
+# install.packages("Lahman")
+library(dplyr)
+```
+
+```
+## -------------------------------------------------------------------------
+```
+
+```
+## data.table + dplyr code now lives in dtplyr.
+## Please library(dtplyr)!
+```
+
+```
+## -------------------------------------------------------------------------
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:data.table':
+## 
+##     between, last
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
+library(tidyr)
+```
+
+```
+## Warning: package 'tidyr' was built under R version 3.3.2
+```
+
+```r
+library(Lahman)  #I'm using a data set from this library
+```
+
+```
+## Warning: package 'Lahman' was built under R version 3.3.2
+```
+
+```r
+# Use this Batting data (this is in the Lahman library)
+dim(Batting)
+```
+
+```
+## [1] 102816     22
+```
+
+```r
+names(Batting)
+```
+
+```
+##  [1] "playerID" "yearID"   "stint"    "teamID"   "lgID"     "G"       
+##  [7] "AB"       "R"        "H"        "X2B"      "X3B"      "HR"      
+## [13] "RBI"      "SB"       "CS"       "BB"       "SO"       "IBB"     
+## [19] "HBP"      "SH"       "SF"       "GIDP"
+```
+
+```r
+players = group_by(Batting, playerID)
+#players looks the same, but has more info, as the grouping has been defined
+dim(players)
+```
+
+```
+## [1] 102816     22
+```
+
+```r
+dim(Batting)
+```
+
+```
+## [1] 102816     22
+```
+
+```r
+head(players)
+```
+
+```
+## Source: local data frame [6 x 22]
+## Groups: playerID [6]
+## 
+##    playerID yearID stint teamID   lgID     G    AB     R     H   X2B   X3B
+##       <chr>  <int> <int> <fctr> <fctr> <int> <int> <int> <int> <int> <int>
+## 1 abercda01   1871     1    TRO     NA     1     4     0     0     0     0
+## 2  addybo01   1871     1    RC1     NA    25   118    30    32     6     0
+## 3 allisar01   1871     1    CL1     NA    29   137    28    40     4     5
+## 4 allisdo01   1871     1    WS3     NA    27   133    28    44    10     2
+## 5 ansonca01   1871     1    RC1     NA    25   120    29    39    11     3
+## 6 armstbo01   1871     1    FW1     NA    12    49     9    11     2     1
+## # ... with 11 more variables: HR <int>, RBI <int>, SB <int>, CS <int>,
+## #   BB <int>, SO <int>, IBB <int>, HBP <int>, SH <int>, SF <int>,
+## #   GIDP <int>
+```
+
+```r
+head(Batting)
+```
+
+```
+##    playerID yearID stint teamID lgID  G  AB  R  H X2B X3B HR RBI SB CS BB
+## 1 abercda01   1871     1    TRO   NA  1   4  0  0   0   0  0   0  0  0  0
+## 2  addybo01   1871     1    RC1   NA 25 118 30 32   6   0  0  13  8  1  4
+## 3 allisar01   1871     1    CL1   NA 29 137 28 40   4   5  0  19  3  1  2
+## 4 allisdo01   1871     1    WS3   NA 27 133 28 44  10   2  2  27  1  1  0
+## 5 ansonca01   1871     1    RC1   NA 25 120 29 39  11   3  0  16  6  2  2
+## 6 armstbo01   1871     1    FW1   NA 12  49  9 11   2   1  0   5  0  1  0
+##   SO IBB HBP SH SF GIDP
+## 1  0  NA  NA NA NA   NA
+## 2  0  NA  NA NA NA   NA
+## 3  5  NA  NA NA NA   NA
+## 4  2  NA  NA NA NA   NA
+## 5  1  NA  NA NA NA   NA
+## 6  1  NA  NA NA NA   NA
+```
+
+```r
+# Now I can create easy summaries, over players...
+games = summarise(players, total = sum(G))
+
+# dplyr adds the %>% function, which serves as a "pipe", piping the output from one
+#  command into the input of the next.  Really cleans up code.  This does what the above code did
+games.using.dplyr = Batting %>%
+  group_by(playerID) %>%
+  summarise(total = sum(G))
+```
+### Summary of functions from Section 9
+
+Function Name | What it does
+------------------------- | -------------------------
+tidy (library)  | really useful library of functions
+dplry (library) | Another really useful library
+groupby | Function that adds grouping to data frame
+summarise | Once data are grouped (using groupby) allows summaries within group
+%>%  | The piping function from dplyr.  Once you get the hang of this, it is a fantastic tool
+## 10 Reading in NIfTI files
+There are more and more libraries for dealing with fMRI data, or simulating fMRI data, but I typically use the fmri library to read in NIfTI data.  The only snag is the nifti file needs to be unzipped first.
+
+```r
+library(fmri)
+```
+
+```
+## Loading required package: awsMethods
+```
+
+```
+## 
+## Use the function setCores() to change the number of CPU cores.
+```
+
+```
+## 
+## Attaching package: 'awsMethods'
+```
+
+```
+## The following object is masked from 'package:tidyr':
+## 
+##     extract
+```
+
+```
+## Loading required package: nlme
+```
+
+```
+## 
+## Attaching package: 'nlme'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     collapse
+```
+
+```r
+# First load in the structure
+# This file is already unzipped
+dat.struct = read.NIFTI("~/Dropbox/NeuroHackWeek/bold.nii")
+dat = extract.data(dat.struct)
+dim(dat)
+```
+
+```
+## [1]  64  64  30 182
+```
